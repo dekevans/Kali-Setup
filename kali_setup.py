@@ -4,6 +4,7 @@ import sys
 import os
 import subprocess
 import argparse
+import glob
 from modules.common.printer import print_success,print_error
 from modules.common import config
 from modules.common import installer
@@ -23,7 +24,12 @@ def main():
 
     arguments = compile_arguments()
     if arguments.list_modules:
-        print("TODO: Print all modules here")
+        print("Available Modules:")
+        print("------------------")
+        for fileloc in glob.glob('modules/templates/*.py'):
+            if '__init__' not in fileloc:
+                module_name = fileloc.split('/')[-1][:-3]
+                print(f"  {module_name}")
         sys.exit(0)
 
     if os.geteuid() != 0:
