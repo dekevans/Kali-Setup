@@ -48,6 +48,6 @@ class InstallerTemplate:
             run_command('gsettings set org.gnome.desktop.session idle-delay 0')
         print_success("Done!", 1)
 
-        print_status("Allowing root SSH login", 1)
-        file_replace('/etc/ssh/sshd_config', '^.*PermitRootLogin .*', 'PermitRootLogin yes')
+        print_status("Disable root SSH login", 1)
+        file_replace('/etc/ssh/sshd_config', '^.*PermitRootLogin .*', 'PermitRootLogin no')
         print_success("Done!", 1)
