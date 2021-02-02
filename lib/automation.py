@@ -4,7 +4,7 @@ import subprocess
 import os
 import re
 import shlex
-from modules.common.printer import *
+from lib.printer import *
 
 _VERBOSE = False
 _DRY_RUN = False

@@ -5,9 +5,9 @@ import os
 import subprocess
 import argparse
 import glob
-from modules.common.printer import print_success,print_error
-from modules.common import config
-from modules.common import installer
+from lib.printer import print_success,print_error
+from lib import config
+from lib import installer
 
 def compile_arguments():
     parser = argparse.ArgumentParser()
@@ -18,18 +18,41 @@ def compile_arguments():
     parser.add_argument("-c", "--config", metavar="config_file",
                        default="setup_config.ini",
                        help="Configuration file to use")
+    parser.add_argument("--run-module", metavar="module",
+                        help="Run individual module")
     return parser.parse_args()
+
+def list_modules():
+    pre_modules_dir = 'modules/pre'
+    main_modules_dir = 'modules/main'
+    post_modules_dir = 'modules/post'
+    print("Pre Modules:")
+    print("------------------")
+    for fileloc in glob.glob(f"{pre_modules_dir}/*.py"):
+        if '__init__' not in fileloc:
+            module_name = fileloc.split('/')[-1][:-3]
+            print(f"  {module_name}")
+    print("")
+    print("Main Modules:")
+    print("------------------")
+    for fileloc in glob.glob(f"{main_modules_dir}/*.py"):
+        if '__init__' not in fileloc:
+            module_name = fileloc.split('/')[-1][:-3]
+            print(f"  {module_name}")
+    print("")
+    print("Post Modules:")
+    print("------------------")
+    for fileloc in glob.glob(f"{post_modules_dir}/*.py"):
+        if '__init__' not in fileloc:
+            module_name = fileloc.split('/')[-1][:-3]
+            print(f"  {module_name}")
+    print("")
 
 def main():
 
     arguments = compile_arguments()
     if arguments.list_modules:
-        print("Available Modules:")
-        print("------------------")
-        for fileloc in glob.glob('modules/templates/*.py'):
-            if '__init__' not in fileloc:
-                module_name = fileloc.split('/')[-1][:-3]
-                print(f"  {module_name}")
+        list_modules()
         sys.exit(0)
 
     if os.geteuid() != 0:

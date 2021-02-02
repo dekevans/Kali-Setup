@@ -8,7 +8,7 @@ class InstallerTemplate:
         return True
 
     def install(self, config):
-        print_status("Configuring bash", 1)
+        print_status("Configuring bash", 2)
         file_backup('/etc/bash.bashrc')
         file_append_once('/etc/bash.bashrc', 'shopt -sq cdspell', 'cdspell')
         file_append_once('/etc/bash.bashrc', 'shopt -s autocd', 'autocd')
@@ -18,5 +18,5 @@ class InstallerTemplate:
         file_append_once('/etc/bash.bashrc', 'HISTFILESIZE=10000', 'HISTFILESIZE')
         if config.getboolean('general', '4k', fallback=False):
             file_append_once('/etc/bash.bashrc', 'export GDK_SCALE=2')
-        print_success("Done", 1)
+        print_success("Done", 2)
         

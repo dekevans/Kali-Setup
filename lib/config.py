@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import configparser
-from modules.common.printer import *
-from modules.common.automation import automation_set_verbose, automation_set_dry_run
+from lib.printer import *
+from lib.automation import automation_set_verbose, automation_set_dry_run
 import sys
 import os
 

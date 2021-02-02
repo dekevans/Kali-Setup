@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from modules.common.automation import *
+from lib.automation import *
 
 class InstallerTemplate:
 
