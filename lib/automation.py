@@ -77,7 +77,7 @@ def make_dir(directory):
         print_status("Would have created directory: " + directory, 1)
         return
     try:
-        os.makedirs(directory)
+        os.makedirs(directory, exist_ok=True)
     except Exception as e:
         print_error("Unable to make the directory {0}: {1}".format(directory, e))
 
@@ -134,6 +134,9 @@ def file_backup(filename):
             new_filename += ".bkup"
         text = file_read(filename)
         file_write(new_filename, text)
+
+def file_copy(src, dest):
+    run_command(f"cp {src} {dest}")
 
 def get_user():
     return os.getenv('SUDO_USER')
