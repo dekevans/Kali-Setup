@@ -140,3 +140,10 @@ def get_user():
 
 def get_home_folder():
     return '/home/{0}'.format(get_user())
+
+def change_owner_and_group(filepath, owner, recursive=False):
+    if recursive:
+        run_command(f"chown -R {owner}:{owner} {filepath}")
+    else:
+        run_command(f"chown {owner}:{owner} {filepath}")
+
