@@ -20,6 +20,14 @@ def compile_arguments():
                        help="Configuration file to use")
     parser.add_argument("--run-module", metavar="module",
                         help="Run individual module")
+    parser.add_argument("-v", "--verbose", action = "store_true",
+                        help="Be mor verbose with output")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Don't actually download anything")
+    parser.add_argument("--no-pre", action="store_true",
+                        help="Don't run any Pre-Modules")
+    parser.add_argument("--no-post", action="store_true",
+                        help="Don't run any Post-Modules")
     return parser.parse_args()
 
 def list_modules():
@@ -72,6 +80,7 @@ def main():
 
     conf = config.Config(config_file)
     conf.load_config()
+    conf.argument_overwrite(arguments)
     install = installer.Installer(conf)
     install.run()
 

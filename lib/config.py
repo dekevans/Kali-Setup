@@ -62,7 +62,19 @@ class Config:
             self._config.read(self._inipath)
         automation_set_verbose(self._config.getboolean('general','verbose', fallback=False))
         automation_set_dry_run(self._config.getboolean('general','dry run', fallback=False))
-
+    
+    def argument_overwrite(self, args):
+        print(args)
+        if args.verbose:
+            automation_set_verbose(True)
+            self._config.set('general','verbose',"yes")
+        if args.dry_run:
+            automation_set_dry_run(True)
+            self._config.set('general','dry run',"yes")
+        if args.no_pre:
+            self._config.set('general','pre_modules',"")
+        if args.no_post:
+            self._config.set('general','post_modules',"")
 
     def warn_about_config(self):
         print_warning("You did not specify a configuration file!")

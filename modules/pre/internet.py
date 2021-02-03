@@ -13,7 +13,7 @@ class InstallerTemplate:
         return True
 
     def install(self, config):
-        is_dry_run = config.get('general', 'dry run', fallback=False)
+        is_dry_run = config.getboolean('general', 'dry run', fallback=False)
 
         print_status("Checking internet access", 2)
         ret = run_command('ping -c 1 -W 10 www.google.com', safe=True, show_error=False)

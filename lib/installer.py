@@ -28,13 +28,19 @@ class Installer:
         print_status(f"{len(self._main_modules)} Main Modules", 1)
         print_status(f"{len(self._post_modules)} Post-Modules", 1)
 
-        list_of_pre_modules = [x.strip() for x in self._config.get_config()['general'].get('pre_modules').split(',')]
-        list_of_main_modules = [x.strip() for x in self._config.get_config()['general'].get('main_modules').split(',')]
-        list_of_post_modules = [x.strip() for x in self._config.get_config()['general'].get('post_modules').split(',')]
+        list_of_modules = {}
+        list_of_modules['pre']  = [x.strip() for x in self._config.get_config()['general'].get('pre_modules').split(',')]
+        list_of_modules['main'] = [x.strip() for x in self._config.get_config()['general'].get('main_modules').split(',')]
+        list_of_modules['post'] = [x.strip() for x in self._config.get_config()['general'].get('post_modules').split(',')]
         main_ok_modules = []
-        print_status(f"Checking {len(list_of_main_modules)} main installation modules...")
 
-        for mod in list_of_main_modules:
+        for time,modules in list_of_modules.items():
+            if modules == ['']:
+                list_of_modules[time] = []
+
+        print_status(f"Checking {len(list_of_modules['main'])} main installation modules...")
+
+        for mod in list_of_modules['main']:
             if mod not in self._main_modules:
                 print_error(f"Unknown module provided: {mod}", 1)
             else:
@@ -43,8 +49,8 @@ class Installer:
                     print_error(f"Module {mod} error: {mod_ret}", 1)
                 else:
                     main_ok_modules.append(mod)
-        if len(list_of_main_modules) != len(main_ok_modules):
-            print_error(f"{len(list_of_main_modules)-len(main_ok_modules)} main modules were invalid!")
+        if len(list_of_modules['main']) != len(main_ok_modules):
+            print_error(f"{len(list_of_modules[main])-len(main_ok_modules)} main modules were invalid!")
             if get_input("Do you want to continue without those?", 'y', ['y','n']) != 'y':
                 print_status("Exiting!")
                 sys.exit(1)
@@ -53,9 +59,9 @@ class Installer:
         else:
             print_success("Modules are good to go!")
         print_status("Executing Pre-Modules...")
-        print_status(f"Running {len(self._pre_modules)} Pre-Modules!", 1)       
+        print_status(f"Running {len(list_of_modules['pre'])} Pre-Modules!", 1)       
         #TODO: Need to sort modules to a proper order
-        self.run_modules(list_of_pre_modules, self._pre_modules)
+        self.run_modules(list_of_modules['pre'], self._pre_modules)
         print_success("Done with Pre-Modules")
         print_status("Executing Main Modules...")
         print_status(f"Running {len(main_ok_modules)} main installation modules!", 1)       
@@ -104,6 +110,9 @@ class Installer:
 
     def run_modules(self, list_of_modules, module_installers):
         is_dry_run = self._config.get_config().get('general', 'dry run', fallback=False)
+        if len(list_of_modules) == 0:
+            #print_status("No modules to run")
+            return
         if list_of_modules[0] == 'all':
             list_of_modules = module_installers.keys()        
 
