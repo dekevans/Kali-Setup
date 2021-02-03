@@ -19,7 +19,6 @@ class InstallerTemplate:
         wallpaper_file = wallpaper_dir+"/"+wallpaper_name
         images_dir=os.path.dirname(os.path.realpath(__file__))+"/../../images"
         file_copy(images_dir+"/"+wallpaper_name, wallpaper_file)
-        print(wallpaper_file)
 
         new_de = config.get('desktop', 'default desktop env', fallback="")
         if new_de != "":

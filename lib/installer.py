@@ -58,22 +58,33 @@ class Installer:
                 print_status("Ignoring bad modules, continuing!")
         else:
             print_success("Modules are good to go!")
-        print_status("Executing Pre-Modules...")
-        print_status(f"Running {len(list_of_modules['pre'])} Pre-Modules!", 1)       
-        #TODO: Need to sort modules to a proper order
-        self.run_modules(list_of_modules['pre'], self._pre_modules)
-        print_success("Done with Pre-Modules")
+
+        if len(list_of_modules['pre']) != 0:
+            print_status("Executing Pre-Modules...")
+            if list_of_modules['pre'][0] == 'all':
+                list_of_modules['pre'] = list(self._pre_modules.keys())
+            print_status(f"Running {len(list_of_modules['pre'])} Pre-Modules!", 1)       
+            #TODO: Need to sort modules to a proper order
+            self.run_modules(list_of_modules['pre'], self._pre_modules)
+            print_success("Done with Pre-Modules")
+        else:
+            print_success("No Pre-Modules to run")
+
         print_status("Executing Main Modules...")
         print_status(f"Running {len(main_ok_modules)} main installation modules!", 1)       
         self.run_modules(main_ok_modules, self._main_modules)
         print_status("Done with Main Modules")
-        quit()
 
-
-        print_status("Executing post-module scripts...")
-        self.after_modules()
-        print_success("Done with post-module scripts")
-        print_success("Done installing!")
+        if len(list_of_modules['post']) != 0:
+            print_status("Executing Post-Modules...")
+            if list_of_modules['post'][0] == 'all':
+                list_of_modules['post'] = list(self._post_modules.keys())
+            print_status(f"Running {len(list_of_modules['post'])} Post-Modules!", 1)       
+            #TODO: Need to sort modules to a proper order
+            self.run_modules(list_of_modules['post'], self._post_modules)
+            print_success("Done with Post-Modules")
+        else:
+            print_success("No Post-Modules to run")
 
 
     def load_modules(self):

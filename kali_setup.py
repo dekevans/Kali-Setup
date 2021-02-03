@@ -57,7 +57,6 @@ def list_modules():
     print("")
 
 def main():
-
     arguments = compile_arguments()
     if arguments.list_modules:
         list_modules()

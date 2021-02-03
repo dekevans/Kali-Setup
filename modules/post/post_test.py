@@ -8,4 +8,4 @@ class InstallerTemplate:
         return True
 
     def install(self, config):
-        print_success("This is a pre module post template", 1)
+        print_success("This is a post module template", 2)

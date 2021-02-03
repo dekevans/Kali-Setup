@@ -64,7 +64,6 @@ class Config:
         automation_set_dry_run(self._config.getboolean('general','dry run', fallback=False))
     
     def argument_overwrite(self, args):
-        print(args)
         if args.verbose:
             automation_set_verbose(True)
             self._config.set('general','verbose',"yes")
