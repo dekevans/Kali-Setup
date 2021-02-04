@@ -39,7 +39,7 @@ def apt_install(packages):
 def github_clone(repo, dest_folder):
     if not dest_folder.endswith('/'):
         dest_folder += "/"
-    dest_folder += "{0}-git".format(repo.replace('/','_').lower())
+#    dest_folder += "{0}git".format(repo.replace('/','_').lower())
     cmd = 'git clone --recurse-submodules https://github.com/{0}.git {1}'.format(repo, escape(dest_folder))
     return run_command(cmd)
 
