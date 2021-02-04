@@ -81,7 +81,11 @@ def main():
     conf.load_config()
     conf.argument_overwrite(arguments)
     install = installer.Installer(conf)
-    install.run()
+    
+    if arguments.run_module is None:
+        install.run()
+    else:
+        install.run_one(arguments.run_module)
 
 if __name__ == '__main__':
     main()

@@ -16,6 +16,29 @@ class Installer:
         self._post_modules = {}
 
 
+    def run_one(self, module_string):
+        s = module_string.split('.')
+        category = s[0]
+        mod = s[1]
+        if category not in ['pre', 'main', 'post']:
+            print_error(f"{category} is not a valid category")
+            sys.exit(1)
+        self.load_modules()
+        module_set = f"{category}_modules"
+        list_of_modules = [x.strip() for x in self._config.get_config()['general'].get(module_set).split(',')]
+        if list_of_modules[0] == 'all':
+            list_of_modules = list(self._all_modules[category].keys())
+        if mod not in list_of_modules:
+            print_error(f"{category} is not a module in in the '{mod}' category")
+            sys.exit(1)
+
+        print_status(f"Running module: {mod}...", 1)
+        try:
+            self._all_modules[category][mod].install(self._config.get_config())
+        except Exception as e:
+            print_error(f"Module '{mod}' had runtime error: {e}", 1)
+        print_success(f"Done with {mod}!", 1)
+
     def run(self):
         print_status("Starting installer...")
 
