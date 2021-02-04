@@ -30,8 +30,23 @@ class Installer:
 
         list_of_modules = {}
         list_of_modules['pre']  = [x.strip() for x in self._config.get_config()['general'].get('pre_modules').split(',')]
+        if list_of_modules['pre'][0] == 'all':
+            list_of_modules['pre'] = list(self._pre_modules.keys())
+        priority = open('modules/pre/priority.txt').read().splitlines()
+        list_of_modules['pre'] = self.sort_lists(list_of_modules['pre'], priority)
+
         list_of_modules['main'] = [x.strip() for x in self._config.get_config()['general'].get('main_modules').split(',')]
+        if list_of_modules['main'][0] == 'all':
+            list_of_modules['main'] = list(self._main_modules.keys())
+        priority = open('modules/main/priority.txt').read().splitlines()
+        list_of_modules['main'] = self.sort_lists(list_of_modules['main'], priority)
+
         list_of_modules['post'] = [x.strip() for x in self._config.get_config()['general'].get('post_modules').split(',')]
+        if list_of_modules['post'][0] == 'all':
+            list_of_modules['post'] = list(self._post_modules.keys())
+        priority = open('modules/post/priority.txt').read().splitlines()
+        list_of_modules['post'] = self.sort_lists(list_of_modules['post'], priority)
+
         main_ok_modules = []
 
         for time,modules in list_of_modules.items():
@@ -61,8 +76,6 @@ class Installer:
 
         if len(list_of_modules['pre']) != 0:
             print_status("Executing Pre-Modules...")
-            if list_of_modules['pre'][0] == 'all':
-                list_of_modules['pre'] = list(self._pre_modules.keys())
             print_status(f"Running {len(list_of_modules['pre'])} Pre-Modules!", 1)       
             #TODO: Need to sort modules to a proper order
             self.run_modules(list_of_modules['pre'], self._pre_modules)
@@ -77,8 +90,6 @@ class Installer:
 
         if len(list_of_modules['post']) != 0:
             print_status("Executing Post-Modules...")
-            if list_of_modules['post'][0] == 'all':
-                list_of_modules['post'] = list(self._post_modules.keys())
             print_status(f"Running {len(list_of_modules['post'])} Post-Modules!", 1)       
             #TODO: Need to sort modules to a proper order
             self.run_modules(list_of_modules['post'], self._post_modules)
@@ -136,6 +147,13 @@ class Installer:
                 print_error(f"Module '{mod}' had runtime error: {e}", 1)
             print_success(f"Done with {mod}!", 1)
             counter += 1
+
+    def sort_lists(self, unsorted_list, priority):
+        run_first = [x for x in unsorted_list if x in priority]
+        run_second= [x for x in unsorted_list if x not in priority]
+        run_first.sort(key = lambda x: priority.index(x))
+        return run_first + run_second
+
 
     def after_modules(self):
         default_shell = self._config.get_config().get('general', 'default shell', fallback="")
