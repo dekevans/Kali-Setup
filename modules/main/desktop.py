@@ -51,11 +51,14 @@ class InstallerTemplate:
             elif new_de == "gnome":
                 apt_install("kali-desktop-gnome")
                 run_command('update-alternatives --set x-session-manager /usr/bin/gnome-session')
+                print_error("Can't currently change wallpaper for gnome")
             elif new_de == "i3":
                 apt_install("kali-desktop-i3")
+                print_error("Can't currently change wallpaper for i3")
             elif new_de == "lxde":
                 apt_install("kali-desktop-lxde")
                 run_command('update-alternatives --set x-session-manager /usr/bin/startlxde')
+                print_error("Can't currently change wallpaper for lxde")
             else:
                 print_error("Unknown desktop option...",2)
             print_success("Done!", 2)
