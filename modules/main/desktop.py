@@ -46,6 +46,8 @@ class InstallerTemplate:
             elif new_de == "xfce":
                 apt_install("kali-desktop-xfce")
                 run_command('update-alternatives --set x-session-manager /usr/bin/startxfce4')
+                prop="/backdrop/screen0/monitorVirtual1/workspace0/last-image"
+                run_command(f"xfconf-query -c xfce4-desktop -p {prop} -s {wallpaper_file}", as_user=True)
             elif new_de == "gnome":
                 apt_install("kali-desktop-gnome")
                 run_command('update-alternatives --set x-session-manager /usr/bin/gnome-session')
