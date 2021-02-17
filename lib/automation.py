@@ -84,6 +84,9 @@ def make_dir(directory):
 def file_exists(filename):
     return os.path.exists(filename)
 
+def dir_exists(dirname):
+    return os.path.isdir(dirname)
+
 def file_read(filename):
     if not file_exists(filename):
         return ""

@@ -15,7 +15,7 @@ class InstallerTemplate:
         'SecureAuthCorp/impacket',
         'ticarpi/jwt_tool',
         'Ganapati/RsaCtfTool',
-        'carlospolop/privilege-escalation-awesome-scripts-suite/',
+        'carlospolop/privilege-escalation-awesome-scripts-suite',
         'rebootuser/LinEnum',
     ]
 
@@ -37,8 +37,11 @@ class InstallerTemplate:
         print_status("Installing various github tools into /opt", 2)
         user = os.getenv('SUDO_USER')
         for proj in self._REPOS:
-            print_status(f"Cloning {proj}...", 2)
             folder_name = f"/opt/{proj.split('/')[1]}"
+            if dir_exists(folder_name):
+                print_status(f"{proj} already exists, skipping...", 2)
+                continue
+            print_status(f"Cloning {proj}...", 2)
             github_clone(proj, folder_name)
             run_command("cd {0}; git pull -q".format(folder_name))
             if proj in self._ADDITIONAL_INSTRUCTIONS:
