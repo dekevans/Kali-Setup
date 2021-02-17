@@ -15,6 +15,8 @@ class InstallerTemplate:
         'SecureAuthCorp/impacket',
         'ticarpi/jwt_tool',
         'Ganapati/RsaCtfTool',
+        'carlospolop/privilege-escalation-awesome-scripts-suite/',
+        'rebootuser/LinEnum',
     ]
 
     _ADDITIONAL_INSTRUCTIONS = {
