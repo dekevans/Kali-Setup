@@ -67,14 +67,11 @@ class InstallerTemplate:
         print_success(f"pipx is installed form: {user}", 2)
 
     def install(self, config):
-        """
-        print_status("Installing Ghidra", 2)
+        print_status("Installing AutoRecon", 2)
         self.install_dependencies()
-        ghidra_link = run_command_with_output('curl -s "https://ghidra-sre.org/" | grep \'Download Ghidra\' | cut -d\\" -f6', safe=True).strip()
-        file_download(f"https://ghidra-sre.org/{ghidra_link}", "/opt/ghidra.zip")
-        run_command('cd /opt/; unzip ghidra*.zip')
-        run_command('rm /opt/ghidra*.zip')
-        owner = os.getenv('SUDO_USER')
-        change_owner_and_group("/opt/ghidra_*_PUBLIC", owner, recursive=True)
-        """
+        pipx = '/home/kali/.local/bin/pipx'
+        autorecon = 'git+https://github.com/Tib3rius/AutoRecon.git'
+        print_status("Installing and linking AutoRecon", 2)
+        run_command(f"{pipx} install {autorecon}", as_user=True)
+        run_command("ln -s /home/kali/.local/pipx/venvs/autorecon/bin/autorecon /usr/local/bin/autorecon")
         print_success("Done!", 2)
