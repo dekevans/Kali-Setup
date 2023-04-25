@@ -16,7 +16,7 @@ class InstallerTemplate:
             print_success('vim installed', 2)
 
         print_status('Configuring vim', 2)
-        vimrc_url = 'https://raw.githubusercontent.com/samfelt/dotfiles/master/variants/kali.vimrc'
+        vimrc_url = 'https://raw.githubusercontent.com/dekevans/dotfiles/main/.vimrc'
         vimrc_dest = get_home_folder() + '/.vimrc'
         file_download(vimrc_url, vimrc_dest)
         change_owner_and_group(vimrc_dest, get_user())
