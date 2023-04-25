@@ -1,6 +1,6 @@
 # Kali Setup Script
 
-This has been forked from [Raikia](github.com/raikia/Kali-Setup) who credits
+This has been forked from [samfelt](https://github.com/samfelt/Kali-Setup), who forked from [Raikia](github.com/raikia/Kali-Setup) who credits
 [g0tmi1k](https://github.com/g0tmi1k/os-scripts) with the original script.
 Basically there's a long line of smart people's work that this has been built
 on top of. I'm doing what I can to make this as usable and functional as
