@@ -23,7 +23,7 @@ class InstallerTemplate:
             print_success('xclip installed', 2)
 
         print_status('Configuring tmux', 2)
-        tmux_url = 'https://raw.githubusercontent.com/samfelt/dotfiles/master/variants/kali.tmux.conf'
+        tmux_url = 'https://raw.githubusercontent.com/dekevans/dotfiles/main/.tmux.conf'
         tmux_dest = get_home_folder() + '/.tmux.conf'
         file_download(tmux_url, tmux_dest)
         change_owner_and_group(tmux_dest, get_user())
